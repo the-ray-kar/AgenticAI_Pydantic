@@ -251,7 +251,7 @@ class User(BaseModel):
 
 Using `Field` in Pydantic makes data validation more powerful and structured, improving data integrity in applications.
 
-### Simple Agent without tool but output in Specified format
+## Simple Agent without tool but output in Specified format using Google AI Studio
 
 Ensuring the GEMINI_API_KEY is in env. You can create a simple agent which return output
 ```python
