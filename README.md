@@ -253,7 +253,7 @@ Using `Field` in Pydantic makes data validation more powerful and structured, im
 
 ## Simple Agent without tool but output in Specified format using Google AI Studio
 
-Ensuring the GEMINI_API_KEY is in env. You can create a simple agent which return output
+Ensuring the GEMINI_API_KEY is in env. You can create a simple agent which return output in specified format
 ```python
 import asyncio
 from pydantic import BaseModel, Field
@@ -275,10 +275,7 @@ async def run_agent():
     Here is a list of choices:
     {', '.join(choices)}
 
-    Please pick the most appropriate one and respond in JSON like this:
-    {{"index": <index>}}
-
-    ONLY return the JSON, nothing else.
+    Please pick the most appropriate one.
     """
 
     result = await agent.run(user_prompt=prompt)
@@ -286,7 +283,6 @@ async def run_agent():
 
 # 4. Run the agent
 result = await run_agent()
-print(result.output.index)  # Output will be an integr
-
+print(result.output.index)  # Output will be an integer
 ```
 
