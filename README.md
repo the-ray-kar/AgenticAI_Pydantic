@@ -194,6 +194,10 @@ In Pydantic, the `Field` function is used to add extra metadata, constraints, an
 ### **Usage of `Field`**
 The `Field` function is imported from `pydantic` and allows defining constraints such as minimum/maximum values, regex patterns, default values, and descriptions.
 
+
+
+
+
 ```python
 from pydantic import BaseModel, Field
 
@@ -247,4 +251,42 @@ class User(BaseModel):
 
 Using `Field` in Pydantic makes data validation more powerful and structured, improving data integrity in applications.
 
+### Simple Agent without tool but output in Specified format
+
+Ensuring the GEMINI_API_KEY is in env. You can create a simple agent which return output
+```python
+import asyncio
+from pydantic import BaseModel, Field
+from pydantic_ai import Agent
+
+# 1. Define output model
+class ChoiceOutput(BaseModel):
+    index: int = Field(..., description="Index of the selected option (0-based)")
+
+# 2. Initialize the agent with Gemini
+agent = Agent(model="google-gla:gemini-2.0-flash",output_type=ChoiceOutput)
+
+# 3. Async runner function
+async def run_agent():
+    choices = ["cat", "dog", "bird"]
+    prompt = f"""
+    You are a helpful assistant.
+
+    Here is a list of choices:
+    {', '.join(choices)}
+
+    Please pick the most appropriate one and respond in JSON like this:
+    {{"index": <index>}}
+
+    ONLY return the JSON, nothing else.
+    """
+
+    result = await agent.run(user_prompt=prompt)
+    return result
+
+# 4. Run the agent
+result = await run_agent()
+print(result.output.index)  # Output will be an integr
+
+```
 
